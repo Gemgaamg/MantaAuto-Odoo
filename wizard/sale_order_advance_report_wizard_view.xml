@@ -17,7 +17,8 @@
                 </group>
                 <group>    
                     <field name="entregado" />
-                    <field name="sin_entregar" />
+                    entregado<field name="sin_entregar" />
+
                 </group>
               
                 <footer>
