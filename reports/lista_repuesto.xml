@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<report 
+    id="action_report_lista_repuesto" 
+    model="sale.order" 
+    string="Lista de Repuestos"
+    report_type="qweb-pdf"
+    name="manta_auto_personalizacion.report_lista_repuesto" 
+    file="manta_auto_personalizacion.report_lista_repuesto"
+
+/>
+
+<template id="ma_another_layout">
+<t t-name="report.another_layout">
+  <t t-call="manta_auto_personalizacion.ma_another_layout_header"/>
+  <t t-raw="0"/>
+  <t t-call="manta_auto_personalizacion.ma_another_layout_footer"/>
+</t>
+</template>
+
+<template id="ma_another_layout_header">
+<t t-name="report.another_layout_header">
+  <div class="header">
+    <div class="row">
+        <div style="text-align:center">
+          <img t-att-src="'/manta_auto_personalizacion/static/src/img/cabecera.jpg'"/>
+        </div>
+        </div>
+  </div>
+</t>
+</template>
+
+
+<template id="ma_another_layout_footer">
+<t t-name="report.another_layout_footer">
+ <div class="footer">
+    
+    
+        <div class="row" style="background-color:#568eff;color:#ffffff;">
+          <div class="col-xs-12" style="text-align:center">
+          Página <span class="page"/> de <span class="topage"/>
+       </div>
+    </div>
+  </div>
+</t>
+</template>
+
+<template id="report_lista_repuesto">
+   <t t-name="account.another_report">
+   <t t-call="manta_auto_personalizacion.ma_another_layout">
+   <t t-foreach="docs" t-as="o"> <!-- this makes the context model data accessible throughout the variable "o" -->
+    
+    <div class="page"> 
+      <div class="row mt32">
+        <table class="table table-condensed">
+          <thead style="background-color:#568eff;border: 1px solid #568eff;color:#ffffff;">
+              <tr>
+                  <th class="col-xs-9" style="font-weight:normal;font-size:30"> Lista de Repuestos # <span t-field="o.name"/></th>
+
+                  <th class="col-xs-3" style="text-align:center">Fecha <br/> 
+                  <!--<span t-esc="time.strftime('%A, %d %B %Y',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/>-->
+                      <span t-field="o.date_order" t-field-options='{"format": "d MMMM y"}'/>
+                  </th>
+              </tr>
+         </thead>
+        </table>
+      </div>
+        
+      
+        <div class="row">
+          <div class="col-xs-6">
+            
+            <div class="panel panel-default">
+           <div class="panel-body">   
+                <strong>ASEGURADORA:  </strong>
+                <span t-if="o.is_insurance == False">PARTICULAR</span>
+                  <span t-if="o.is_insurance">
+                      <span t-field="o.partner_id"/>
+                   </span><br/>
+                <strong>R.U.C:  </strong>
+                <span t-if="o.is_insurance == False">PARTICULAR</span>
+                  <span t-if="o.is_insurance">
+                    <span t-field="o.partner_id.ced_ruc"/>
+                  </span><br/>
+                <strong>CONTACTO:  </strong>
+                <span t-if="o.is_insurance == False">PARTICULAR</span>
+                  <span t-if="o.is_insurance">
+                    <span t-field="o.partner_id.email"/>
+                  </span>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">   
+                <strong>CLIENTE:  </strong><span t-field="o.cliente_id"/><br/>
+                <strong>C.I/R.U.C:  </strong><span t-field="o.cliente_id.ced_ruc"/><br/>
+                <strong>TELÉFONO:  </strong><span t-field="o.cliente_id.phone"/>
+                        
+                </div>
+            </div>
+          </div>
+
+          <div class="col-xs-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <strong style="text-align:center">DETALLE VEHÍCULO</strong>
+              </div>
+              <div class="panel-body">             
+                <strong>MARCA:  </strong><span t-field="o.vehiculo_id.marca_id.name"/><br/>
+                <strong>MODELO:  </strong><span t-field="o.vehiculo_id.modelo_id"/><br/>
+                <strong>AÑO:  </strong><span t-field="o.vehiculo_id.marca_id.name"/>
+                <strong>PLACA:  </strong><span t-field="o.vehiculo_id.placa"/><br/>
+                <strong>CHASIS:  </strong><span t-field="o.vehiculo_id.chasis"/><br/>
+                <strong>MOTOR N°:  </strong><span t-field="o.vehiculo_id.motor"/><br/>
+                <strong>COLOR:  </strong><span t-field="o.vehiculo_id.color_id.name"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+       <div class="row">
+        <table class="table table-bordered table-condensed">
+                
+                <thead style="background-color:#568eff;border: 1px solid #568eff;color:#ffffff;">
+                    <tr>
+                        <th class="col-xs-11">REPUESTOS</th>
+                        <th class="col-xs-1">CANTIDAD</th>
+                    </tr>
+               </thead>
+               <tbody>
+                    <tr t-foreach="o.order_line_replacement" t-as="l">
+                        <td class="col-xs-11">
+                           <span t-field="l.product_id"/>
+                        </td>
+                        <td class="col-xs-1" style="text-align:center">
+                            <span t-field="l.qty"/>
+                        </td>
+                    </tr>
+                </tbody>
+        </table>
+        <div class="col-xs-12">
+        <table class="table table-condensed">
+            
+            <tr class="border-black">
+                <td><strong>Nota: Durante las reparaciones pueden detectarse daños ocultos no consideradosen este documento, de ser asi pondremosa su consideracion un Adendum de los mismos</strong></td>
+          
+            </tr>
+            
+        </table>
+        </div>
+        </div>
+
+        
+      </div>
+  </t>
+  </t>
+</t>
+</template>
+</data>
+</openerp>

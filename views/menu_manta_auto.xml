@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    
+    <data>
+    	<menuitem name="Opciones principales"
+            id="menu_manta_auto"
+            groups="base.group_sale_salesman,base.group_sale_manager"/>
+
+        <menuitem id="menu_operatividad" name="Operaciones" parent="menu_manta_auto"/>
+        <menuitem id="menu_accesibilidad" name="Accesibilidad" parent="menu_manta_auto" />
+        <menuitem id="menu_reportes" name="Reportes" parent="menu_manta_auto" />
+
+        
+        
+        <menuitem id="submenu_ventas_vehiculos" name="Vehiculos" parent="menu_accesibilidad" action="action_vehicle" />
+        <menuitem id="submenu_ventas_vehiculo_marca" name="Marcas" parent="menu_accesibilidad" action="action_vehicle_marca" />
+        <menuitem id="submenu_ventas_ingreso"
+                name="Ingresos"
+                action="sale.action_quotations" parent="menu_operatividad"/>
+        <menuitem id="submenu_ventas_orden_trabajo"
+                name="Orden de Trabajo"
+                action="sale.action_orders" parent="menu_operatividad"/>
+
+        <menuitem id="submenu_ventas_clientes" name="Clientes" 	parent="menu_accesibilidad" action="base.action_partner_form" />
+    </data>
+</openerp>

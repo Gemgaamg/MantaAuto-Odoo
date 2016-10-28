@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        
+        <record model="ir.ui.view" id="sale_order_search_view_inherit">
+            <field name="name">sale.order.search inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter [@string='Salesperson']" position = "after">       
+                    <filter string="Cliente"  context="{'group_by':'cliente_id'}"/>
+                </xpath>
+                <xpath expr="//filter [@string='Customer']" position = "replace">     
+                    <filter string="Cliente para factura" domain="[]" context="{'group_by':'partner_id'}"/>  
+                </xpath>
+
+                <xpath expr="//filter [@string='Order Month']" position = "after">     
+                    <filter string="Estado" domain="[]" context="{'group_by':'state'}"/>  
+                </xpath>
+
+                <xpath expr="//filter [@name='my_sale_orders_filter']" position = "after">     
+                    <separator/>
+                    <filter string="Por seguro" domain="[('is_insurance','=',True)]"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="sale_order_ma_form_view_inherit">
+            <field name="name">sale.order.ma</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position = "replace">       
+                    <header>             
+                        <button name="invoice_recreate" states="invoice_except" string="Recreate Invoice" groups="base.group_user"/>
+                        <button name="invoice_corrected" states="invoice_except" string="Ignore Exception" groups="base.group_user"/>
+                        <button name="action_quotation_send" string="Send by Email" type="object" states="draft,insurance_setting,no_insurance_setting" class="oe_highlight" groups="base.group_user"/>
+                        <button name="action_quotation_send" string="Send by Email" type="object" states="sent,progress,manual" groups="base.group_user"/>
+                        <button name="print_quotation" string="Print" type="object" states="draft,insurance_setting,no_insurance_setting" class="oe_highlight" groups="base.group_user"/>
+                        <button name="print_quotation" string="Print" type="object" states="sent,progress,manual" groups="base.group_user"/>
+                        <button name="action_button_confirm" states="draft" string="Confirmar Ingreso" type="object" groups="base.group_user"/>
+                        <button name="action_button_confirm" states="sent" string="Confirmar Ingreso" class="oe_highlight" type="object" groups="base.group_user"/>
+                        <button name="action_view_invoice" string="View Invoice" type="object" class="oe_highlight"
+                           attrs="{'invisible': [('invoice_exists', '=', False)]}" groups="base.group_user"/>
+                        <button name="%(sale.action_view_sale_advance_payment_inv)d" string="Create Invoice"
+                            type="action" states="manual" class="oe_highlight" groups="base.group_user"/>
+                        <button name="copy_quotation" states="cancel" string="New Copy of Quotation" type="object"/>
+                        <button name="cancel" states="draft,sent,insurance_setting,no_insurance_setting" string="Cancel Quotation" groups="base.group_user"/>
+                        <button name="action_cancel" states="manual,progress" string="Cancel Order" type="object" groups="base.group_user"/>
+                        <button name="invoice_cancel" states="invoice_except" string="Cancel Order" groups="base.group_user"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,sent,progress,done" statusbar_colors='{"invoice_except":"red","waiting_date":"blue"}'/>
+                    </header>
+                    
+                </xpath>
+
+                <xpath expr="//sheet//h1" position="replace">
+                    <h1 class="oe_left" >
+                        <label string="Quotation " attrs="{'invisible': [('state','not in',('draft','sent'))]}"/>
+                        <label string="Sales Order " attrs="{'invisible': [('state','in',('draft','sent'))]}"/>
+                        <field name="name" class="oe_inline" readonly="1"/>
+
+                    </h1>
+                </xpath> 
+                <xpath expr="//sheet//h1" position="after">
+                    <div class="oe_right oe_button_box" name="buttons"> </div>
+                </xpath> 
+
+                <xpath expr="//field [@name='partner_id']" position="replace">
+                    <field name="partner_id" domain="[('customer','=',True)]" context="{'search_default_customer':1, 'show_address': 1}" options='{"always_reload": True}'/>
+                </xpath>                
+                
+                <xpath expr="//field[@name='order_line']//tree[@string='Sales Order Lines']//field[@name='price_unit']" position="after">
+                    <field name="category_id"  />
+                </xpath>
+                <xpath expr="//field[@name='amount_total']" position="after">
+                    <field name="saldo"/>
+                    <field name="abono"/>
+                </xpath>
+                               
+
+                <xpath expr="//button [@name='action_button_confirm']" position="after">
+                    <button name="action_button_confirm_insurance_setting" states="insurance_setting"  string="Confirmar Ajuste" class="oe_highlight" type="object" />
+                    <button name="action_button_confirm_no_insurance_setting" states="no_insurance_setting"  string="Confirmar Orden" class="oe_highlight" type="object" />
+
+                </xpath>
+
+                
+
+                <xpath expr="//button [@name='button_dummy']" position="replace">
+                    <button name="button_dummy"
+                                        states="draft,insurance_setting,no_insurance_setting,sent,manual" string="(update)" type="object" class="oe_edit_only oe_link"/>
+                </xpath>                      
+                <xpath expr="//page [@string='Order Lines']" position="before">
+                    <page name="repuestos" string="Repuestos">
+                        <field name="order_line_replacement">
+                            <tree editable="bottom">
+                                <field name="product_id" 
+                                    domain = "[('repair_ok','=',True)]"
+                                    context = "{'default_repair_ok': True}"
+                                    />
+                                <field name="qty" />
+                                       
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="task" string="Tareas a Realizar">
+                        
+                        <field name="state_line">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                        <field name="task_line">
+                            <tree editable="bottom">
+                                <field name="tarea_id"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="scope" string="Alcance">
+                        <field name="scope_line">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="date"/>
+                            </tree>
+                        </field>
+                    </page>
+                    
+                    
+
+                </xpath>
+
+
+                
+                <xpath expr="//page[@string='Other Information']" position="inside">
+                        <field name="multi_images" widget="image_multi">
+                            <tree editable="bottom">
+                                <field name="image"  height="100"/>
+                                <field name="description"/>
+                                <field name="title"/>
+                            </tree>
+                        </field>
+                        <field name="attachments" widget="many2many_binary"/>
+                </xpath>
+                <xpath expr="//page[@string='Order Lines']" position="attributes">
+                    <attribute name="string">Pedido</attribute>
+                </xpath>
+                <xpath expr="//field [@name='date_order']" position="after">
+                    <field name="date_order_end" />
+
+                </xpath>
+                <xpath expr="//field [@name='partner_id']" position="after">
+                    <field name="is_insurance" invisible = "1"/>
+                    <field name="cliente_id" attrs="{'invisible':[('is_insurance','=',False)]}"/>
+                    <field name="vehiculo_id" />
+
+                </xpath>
+                <xpath expr="//notebook" position="before">
+
+                    <group string="Informacion actual del vehiculo">
+                        <group name ="info_vehicle">
+                            <group>
+                                <field name="moqueta" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                                    widget="touchspin"/>
+                                <field name="tapacubo" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                                    widget="touchspin"/>
+                                <field name="herramientas" attrs="{'readonly': [('state', 'not in',('draft'))]}"               
+                                    widget="touchspin"/>
+                                <field name="espejo" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                                    widget="touchspin"/>
+                                <field name="seguro_aros" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                                    widget="touchspin"/>
+                                 <field name="pluma" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                                    widget="touchspin"/>
+                                <field name="llanta" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                                    widget="touchspin"/>
+                                <field name="encendedor" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                                    widget="touchspin"/>
+                                <field name="memoria_radio" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                                    widget="touchspin"/>
+                            </group>
+                            <group>
+                               
+                                
+                                <field name="cds" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                                    widget="touchspin"/>
+                                <field name="extintor" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                                    widget="touchspin"/>
+                                <field name="gata" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                                    widget="touchspin"/>
+                                <field name="emblema" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                                    widget="touchspin"/>
+                                <field name="triangulo" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                                    widget="touchspin"/>
+                                <field name="llave_ruedas" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                                    widget="touchspin"/>
+                                <field name="botiquin" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                                    widget="touchspin"/>
+                                <field name="antena" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                                    widget="touchspin"/>
+                                <field name="tapagas" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                                    widget="touchspin"/>
+                            </group>
+                        </group>
+                        
+                    </group>
+                    <group>
+                        <field name="kilometraje" attrs="{'readonly': [('state', 'not in',('draft'))]}"/>
+                        <field name="nivel_gasolina" attrs="{'readonly': [('state', 'not in',('draft'))]}"
+                            widget="slider" options="{'text_after':'%','step':10,'color':'green','max_val':100,'min_val':0}"/>
+                        
+                    </group>
+                </xpath>
+                
+            </field>
+        </record>
+    </data>
+</openerp>

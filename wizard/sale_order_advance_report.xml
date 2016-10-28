@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+ <record id="paperformat_frenchcheck" model="report.paperformat">
+        <field name="name">French Bank Check</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <!--<field name="page_height">80</field>
+        <field name="page_width">175</field>-->
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">25</field>
+        <field name="margin_bottom">5</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+    </record>
+<report 
+    id="action_report_sale_order_advance" 
+    model="sale.order.advance.report" 
+    string="Kardex"
+    report_type="qweb-pdf"
+    name="manta_auto_personalizacion.report_sale_order_advance" 
+    file="manta_auto_personalizacion.report_sale_order_advance"
+
+/>
+<record id="action_report_sale_order_advance" model="ir.actions.report.xml">
+        <field name="paperformat_id" ref="paperformat_frenchcheck"/>
+    </record>
+<template id="report_sale_order_advance">
+  <template id="ma_another_layout_header">
+
+<t t-name="report.another_layout_header">
+  <t t-foreach="docs" t-as="o">
+  <div class="header">
+    <div class="row">
+        
+          
+        
+        
+        
+        <table class="table table-condensed" style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">
+                
+                <thead>
+                    <tr>
+                        <th class="col-xs-2">
+                        <img t-att-src="'/manta_auto_personalizacion/static/src/img/Cabeceralandscape.jpg'"/>
+                        </th>
+                        <th class="col-xs-2"><strong style="color:#568eff">CLIENTE: </strong> <span t-esc="o.cliente_id.name"/>  </th>
+                        <th class="col-xs-3"><strong style="color:#568eff">VEHICULO: </strong><span t-esc="o.vehiculo_id.name"/>  </th>
+                        <th class="col-xs-2"><strong style="color:#568eff">ENTREGADO: </strong> 
+                        <span t-if="o.entregado == True">✓</span>
+                        </th>
+                        <th class="col-xs-2"><strong style="color:#568eff">NO ENTREGADO: </strong> 
+                        <span t-if="o.sin_entregar == True">✓</span>
+                        </th>
+                        
+                    </tr>
+               </thead>
+             </table>
+           </div>
+  </div>
+</t>
+</t>
+</template>
+    <t t-foreach="docs" t-as="o">
+      <t t-call="manta_auto_personalizacion.ma_another_layout">
+
+        <div class="page">
+            <div class="oe_structure"/>
+            <div class="row">
+            <table class="table table-condensed">
+          <thead style="background-color:#568eff;border: 1px solid #568eff;color:#ffffff;">
+              <tr>
+                  <th class="col-xs-8" style="font-weight:normal;font-size:30">Reporte Mensual</th>
+                  <th class="col-xs-2" style="font-weight:normal;font-size:20">Desde:  <span t-field="o.date_from"/></th>
+                  <th class="col-xs-2" style="font-weight:normal;font-size:20">Hasta:  <span t-field="o.date_to"/> </th>
+            
+              </tr>
+
+         </thead>
+        </table>
+      </div>
+              
+                 <div class="row">
+                    
+                     <table  class="table table-bordered table-condensed" style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;border: 1px solid #568eff">
+                                
+                                <thead style="background-color:#568eff;border: 1px solid #568eff;color:#ffffff;">
+                                    <tr>
+                                        <th style="text-align:center" class="col-xs-2">Cliente</th>
+                                        <th style="text-align:center" class="col-xs-2">Seguros</th>
+                                        <th style="text-align:center" class="col-xs-1">Fechas</th>
+                                        <th style="text-align:center">Placa</th>
+                                        <th style="text-align:center">Modelo</th>
+                                        <th style="text-align:center">Color</th>
+                                        <th style="text-align:center">Valor</th>
+                                        <th style="text-align:center">Abono</th>
+                                        <th style="text-align:center">Saldo</th>
+                                        
+                                      
+                                    </tr>
+                               </thead>
+                               <tbody style="border: 1px solid #568eff;">
+                                    <tr t-foreach="o.get_orders()" t-as="l">
+                                        <td >
+                                            <span t-field="l.cliente_id"/>
+                                        </td>
+                                        <td>
+                                         <span t-if="l.partner_id.is_insurance == False">PARTICULAR</span>
+                                         <span t-if="l.partner_id.is_insurance"><span t-field="l.partner_id"/></span>
+                                
+                                        </td>
+                                       <td style="text-align:center">
+                                  <span t-field="l.date_order" t-field-options="{&quot;format&quot;: &quot;yyyy-MM-dd&quot;}"/>
+                                           
+                                           
+                                        </td>
+                                        <td style="text-align:center">
+                                           <span t-field="l.vehiculo_id.placa"/>
+                                        </td>
+                                        <td style="text-align:center">
+                                           <span t-field="l.vehiculo_id.modelo_id.name"/>
+                                        </td>
+                                        <td style="text-align:center">
+                                           <span t-field="l.vehiculo_id.color_id.name"/>
+                                        </td>
+                                        <td style="text-align:center">
+                                           <span t-field="l.amount_total"/>
+                                        </td>
+                                        <td  style="text-align:center">
+                                           <span t-field="l.abono"/>
+                                        </td>
+                                        <td style="text-align:center">
+                                           <span t-field="l.saldo"/>
+                                        </td>
+                                    </tr>
+                                   <tr style="border: 1px solid #568eff;">
+                                       <td >
+                                           Total
+                                        </td>
+                                        <td>
+                                                                        
+                                        </td>
+                                       <td>
+                                           
+                                           
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                           
+                                        </td>
+                                        <t t-set="i" t-value="o.get_total()"/>
+                                        <td style="text-align:center">
+                                           <span t-esc="'$'+str(i['sumTotal'])"/>
+                                        </td>
+                                        <td style="text-align:center">
+                                           <span t-esc="'$'+str(i['sumAbono'])"/>
+                                        </td>
+                                        <td style="text-align:center">
+                                           <span t-esc="'$'+str(i['sumSaldo'])"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                    </table>
+                 </div>
+
+                    
+            <div class="oe_structure"/>
+        </div>
+     </t>
+    </t>
+</template>
+</data>
+</openerp>

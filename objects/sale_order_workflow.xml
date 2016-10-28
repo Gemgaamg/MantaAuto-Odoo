@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="act_insurance_setting" model="workflow.activity">
+            <field name="wkf_id" ref="sale.wkf_sale"/>
+            <field name="name">insurance_setting</field>
+            <field name="kind">function</field>
+            <field name="action">action_wait_insurance_setting()</field>
+            <field name="split_mode">OR</field>
+        </record>
+        
+        <!--<record id="sale.act_wait_invoice" model="workflow.activity">
+            <field name="wkf_id" ref="sale.wkf_sale"/>
+            <field name="name">wait_invoice</field>
+            <field name="kind">function</field>
+            <field name="action">action_wait()</field>
+            <field name="split_mode">OR</field>
+        </record>
+
+        <record id="sale.act_router" model="workflow.activity">
+            <field name="wkf_id" ref="sale.wkf_sale"/>
+            <field name="name">router</field>
+            <field name="kind">function</field>
+            <field name="action">True</field>
+            <field name="split_mode">OR</field>
+        </record>-->
+
+
+        <record id="trans_insurance_setting_router" model="workflow.transition">
+            <field name="act_from" ref="act_insurance_setting"/>
+            <field name="act_to" ref="sale.act_router"/>
+            <field name="signal">order_confirm_insurance_setting</field>
+        </record>
+        <!--<record id="trans_draft_router2" model="workflow.transition">
+            <field name="act_from" ref="act_insurance_setting"/>
+            <field name="act_to" ref="sale.act_router"/>
+            <field name="signal">order_confirm_draft_router</field>
+        </record>-->
+
+        <record id="sale.trans_draft_router" model="workflow.transition">
+            <field name="act_from" ref="sale.act_draft"/>
+            <field name="act_to" ref="act_insurance_setting"/>
+            <field name="signal">order_confirm</field>
+        </record>
+        <record id="sale.trans_sent_router" model="workflow.transition">
+            <field name="act_from" ref="sale.act_sent"/>
+            <field name="act_to" ref="act_insurance_setting"/>
+            <field name="signal">order_confirm</field>
+        </record>
+        <record id="trans_insurance_setting_cancel" model="workflow.transition">
+            <field name="act_from" ref="act_insurance_setting"/>
+            <field name="act_to" ref="sale.act_cancel"/>
+            <field name="signal">cancel</field>
+        </record>
+    </data>
+</openerp>

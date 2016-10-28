@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<report 
+    id="action_report_factura_seguro" 
+    model="account.invoice" 
+    string="Factura Seguro"
+    report_type="qweb-pdf"
+    name="manta_auto_personalizacion.report_factura_seguro" 
+    file="manta_auto_personalizacion.report_factura_seguro"
+
+/>
+<template id="report.external_layout_footer">
+    <t t-name="report.external_layout_footer">
+    <div class="footer">
+       
+    </div>      
+</t>
+</template>
+
+<template id="report.external_layout_header">
+    <t t-name="report.external_layout_header">
+    <div class="header">
+        
+    </div>
+</t>
+</template>
+
+<template id="manta_auto_personalizacion.report_factura_seguro">
+
+    <t t-name="manta_auto_personalizacion.report_factura_seguro">
+    <t t-call="report.external_layout">
+        <t t-foreach="docs" t-as="o">
+        <div t-foreach="o.partner_id" t-as="t" class="page">
+            
+             <div t-if="o.date_invoice" style="position: absolute;  left: 72mm; top: 22mm;">
+                    <p t-field="o.date_invoice" t-field-options='{"format": "d MMMM y"}'/>
+                    
+
+            </div>
+            <div>
+
+               <tr>
+                    
+                    <td class="text-right">
+                        <span t-if="o.get_order().is_insurance == False" style="position: absolute; left: 25mm;top: 29mm;">PARTICULAR</span>
+                        <span t-if="o.get_order().is_insurance">
+                        <span t-esc="o.get_order().partner_id.name" style="position: absolute; left: 25mm;top: 29mm;"/>
+                        </span>
+                    </td>
+                    <td class="text-right">
+                        <span t-if="o.get_order().is_insurance == False" style="position: absolute; left: 25mm; top: 35mm;">PARTICULAR</span>
+                        <span t-if="o.get_order().is_insurance">
+                        <span t-esc="o.get_order().partner_id.street" style="position: absolute; left: 25mm; top: 35mm;"/>
+                        </span>
+                    </td>
+                    <td class="text-right">
+                        <span t-if="o.get_order().is_insurance == False" style="position: absolute; left: 25mm; top: 42mm;">PARTICULAR</span>
+                        <span t-if="o.get_order().is_insurance">
+                        <span t-esc="o.get_order().partner_id.ced_ruc" style="position: absolute; left: 25mm; top: 42mm;"/>
+                        </span>
+                    </td>
+                </tr>
+
+            </div>
+            <div>
+                <tr>
+                    <td class="text-right">
+                    <span t-esc="o.get_order().cliente_id.name" style="position: absolute; left: 25mm; top: 52mm;">
+                    </span>
+                    </td>
+                    <td class="text-right">
+                    <span t-esc="o.get_order().cliente_id.ced_ruc" style="position: absolute; left: 25mm; top: 58mm;">
+                    </span>
+                    </td>
+                    <td class="text-right">
+                    <span t-esc="o.get_order().cliente_id.phone" style="position: absolute; left: 25mm; top: 65mm;">
+                    </span>
+                    </td>
+                </tr>
+            </div>
+
+
+            <div>
+               <tr>
+                    
+                    <td class="text-right">
+                        <span t-esc="o.get_order().vehiculo_id.marca_id.name" style="position: absolute; left: 170mm; top: 35mm;"/>
+                    </td>
+                    <td class="text-right">
+                        <span t-esc="o.get_order().vehiculo_id.modelo_id.name" style="position: absolute; left: 170mm; top: 41mm;"/>
+                    </td>
+                    <td class="text-right">
+                        <span t-esc="o.get_order().vehiculo_id.anio_id.name" style="position: absolute; left: 170mm; top: 48mm;"/>
+                    </td>
+                    <td class="text-right">
+                        <span t-esc="o.get_order().vehiculo_id.placa" style="position: absolute; left: 220mm; top: 48mm;"/>
+                    </td>
+                    <td class="text-right">
+                        <span t-esc="o.get_order().vehiculo_id.chasis" style="position: absolute; left: 170mm; top: 54mm;"/>
+                    </td>
+                    <td class="text-right">
+                        <span t-esc="o.get_order().vehiculo_id.motor" style="position: absolute; left: 170mm; top: 60mm;"/>
+                    </td>
+                    <td class="text-right">
+                    <span t-esc="o.get_order().vehiculo_id.color_id.name" style="position: absolute; left: 170mm; top: 66mm;"/>
+                    </td>
+                </tr>
+            </div>
+
+            <div t-if="o.date_invoice" style="position: absolute;  left: 42mm; top: 263mm;">
+                <img t-att-src="'/manta_auto_personalizacion/static/src/img/mpago.jpg'"/>
+            </div>
+               
+
+
+
+            <table style="position: absolute; left: 0mm; top: 85mm; ">
+                
+                <tbody>
+                    <tr t-foreach="o.get_totales()" t-as="l">
+                        <t t-if="l['esCategoria']">
+                        <td style="width: 15mm; height:30px ; text-align: right;">
+                        </td>
+                        <td style="width: 25mm; height:30px ; text-align: center;">
+                            
+                        </td>
+
+                        <td style="width: 170mm; text-align:center">
+                            <span t-esc="l['cat']"/>
+                        </td>
+                        
+                        <td style="width: 20mm; text-align: left;">
+                        </td>
+                       
+                        <td style="width: 40mm;text-align: center;">
+                        </td>
+                    </t>
+                    <t t-if="l['esCategoria']==False">
+                        <td style="width: 15mm; height:30px ; text-align: right;">
+                            <span>1</span>
+
+                        </td>
+                        <td style="width: 25mm; height:30px ; text-align: center;">
+                            
+                        </td>
+
+                        <td style="width: 170mm;">
+                            <span t-esc="l['detalle']"/>
+                        </td>
+                        
+                        <td style="width: 20mm; text-align: left;">
+                            <span t-esc="l['precioU']" t-esc-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                        </td>
+                       
+                        <td style="width: 40mm;text-align: center;">
+                            <span t-esc="l['subtotal']" t-esc-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                        </td>
+                    </t>
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+
+                    <table style="position: absolute; left: 212mm; top: 281mm; text-align: center;">
+                        <tr>
+                            
+                            <td style="width: 26mm;height: 23px;">
+                                <span t-field="o.amount_untaxed" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                            </td>
+                        </tr>                                                                  
+                        <tr>
+                            <td style="width: 26mm;height: 23px;">
+                                <span t-field="o.discount_amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 26mm;height: 23px;">
+                                <span>$ 0,00</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 26mm;height: 23px;">
+                                <span t-field="o.amount_tax" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td style="width: 26mm;height: 23px;">
+                                <span t-field="o.amount_total" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                            </td>
+                        </tr>
+                        
+
+                    </table>
+        </div>
+    </t>
+    </t>
+</t>
+</template>
+</data>
+</openerp>

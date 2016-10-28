@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="sale_order_advance_report_view" model="ir.ui.view">
+            <field name="name">Ordenes de trabajo</field>
+            <field name="model">sale.order.advance.report</field>
+            <field name="arch" type="xml">
+            <form string="Report Options">
+                <label string=""/>  <!-- binding for inherited views -->
+                <group col="4">
+                    <field name="cliente_id" options="{'no_quick_create':True,'no_create_edit':True}"/>
+                    <field name="seguro_id" options="{'no_quick_create':True,'no_create_edit':True}"/>
+                    <field name="vehiculo_id" options="{'no_quick_create':True,'no_create_edit':True}"/>
+                    <field name="date_from" />
+                    <field name="date_to" />
+                    <field name="entregado" />
+                    <field name="sin_entregar" />
+                </group>
+              
+                <footer>
+                    <button name="check_report" string="Print" type="object" default_focus="1" class="oe_highlight"/>
+                    or 
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+            </field>
+        </record>
+
+        <record id="action_sale_order_advance_report" model="ir.actions.act_window">
+            <field name="name">Ordenes de trabajo</field>
+            <field name="res_model">sale.order.advance.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="sale_order_advance_report_view"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="submenu_reporte_sale_order_advance" name="Ordenes" parent="menu_reportes" 
+            action="action_sale_order_advance_report" />
+    </data>
+</openerp>

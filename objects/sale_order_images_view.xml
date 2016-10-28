@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record id="multi_images_sale_order_form" model="ir.ui.view">
+            <field name="name">multi.images.sale.order form</field>
+            <field name="model">multi.images.sale.order</field>
+            <field name="arch" type="xml">
+               <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="title"/> 
+                            </div>
+                            <h1>
+                                <field name="title" default_focus="1" placeholder="Descripcion"/>
+                            </h1>
+                            <div class="oe_edit_only">
+                                <label for="description"/> 
+                            </div>
+                            <h1>
+                                <field name="description"/>
+                            </h1>
+                
+                            
+                        </div>
+                        <notebook>
+                            <page string="Imagen">
+                                <field name="image" widget="image" options="{'size': [500, 500]}"/>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                    <!-- History and communication: -->
+                </form>
+            </field>
+        </record>
+        <record id="multi_images_sale_order_tree" model="ir.ui.view">
+            <field name="name">multi.images.sale.order tree</field>
+            <field name="model">multi.images.sale.order</field>
+            <field name="arch" type="xml">
+               <tree>
+                    <field name="title" default_focus="1" placeholder="Descripcion"/>
+                    <field name="description"/>
+                    <field name="image" widget="image" height="100"/>
+                </tree>
+            </field>
+        </record>
+        <record id="act_multi_images_sale_order" model="ir.actions.act_window">
+            <field name="name">Imagenes</field>
+            <field name="res_model">multi.images.sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="context">{'search_default_order_id': active_id}</field>
+            <!--<field name="groups_id" eval="[(4, ref('base.group_sale_salesman'))]"/>-->
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Clik aqui para crear una nueva imagen para esta orden
+              </p>
+            </field>
+        </record>
+        <record id="view_multi_images_sale_order_filter" model="ir.ui.view">
+            <field name="name">multi.images.sale.order search</field>
+            <field name="model">multi.images.sale.order</field>
+            <field name="arch" type="xml">
+                <search string="Busqueda de Imagenes">
+                    <field name="title"/>
+                    <field name="description"/>
+                    <field name="order_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Orden" domain="[]" context="{'group_by':'order_id'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <!-- Partner kanban view inherte 
+        <record model="ir.ui.view" id="crm_lead_partner_kanban_view">
+            <field name="name">res.partner.kanban.saleorder.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <field name="mobile" position="after">
+                    <field name="sale_order_count"/>
+                </field>
+                <xpath expr="//div[@class='oe_kanban_partner_links']" position="inside">
+                    <a name="%(sale.act_res_partner_2_sale_order)d" type="action" t-if="record.sale_order_count.value>0">
+                        <t t-esc="record.sale_order_count.value"/> Sales
+                    </a>
+                </xpath>
+            </field>
+        </record>-->
+
+        <record id="sale_order_view_buttons" model="ir.ui.view">
+            <field name="name">sale.order.view.buttons</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="manta_auto_personalizacion.sale_order_ma_form_view_inherit" />
+            <field name="priority" eval="20"/>
+            <!--<field name="groups_id" eval="[(4, ref('base.group_sale_salesman'))]"/>-->
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='buttons']" position="inside">
+                    <button class="oe_inline oe_stat_button" type="action" name="%(manta_auto_personalizacion.act_multi_images_sale_order)d" 
+                        icon="fa-file-image-o">
+                        <field string="Imagenes" name="multi_images_count" widget="statinfo"/>
+                    </button>     
+                </xpath>
+            </field>
+        </record>
+        <!--
+        <record id="res_partner_address_type" model="ir.ui.view">
+            <field name="name">res.partner.view.address_type</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//label[@for='type']" position="attributes">
+                    <attribute name="groups">sale.group_delivery_invoice_address</attribute>
+                    <attribute name="invisible">False</attribute>
+                </xpath>
+                <xpath expr="//div[@name='div_type']" position="attributes">
+                    <attribute name="invisible">False</attribute>
+                    <attribute name="groups">sale.group_delivery_invoice_address</attribute>
+                </xpath>
+                
+                <xpath expr="//div[@name='div_type'][field[@name='use_parent_address']] | //field[@name='child_ids']//div[@name='div_type']" position="attributes">
+                    <attribute name="invisible">False</attribute>
+                    <attribute name="groups">sale.group_delivery_invoice_address</attribute>
+                </xpath>
+                <xpath expr="//label[@for='type'][following-sibling::div[@name='div_type']/field[@name='use_parent_address']] | //field[@name='child_ids']//label[@for='type']" position="attributes">
+                    <attribute name="invisible">False</attribute>
+                    <attribute name="groups">sale.group_delivery_invoice_address</attribute>
+                </xpath>
+            </field>
+        </record>-->
+
+    </data>
+</openerp>
+

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<report 
+    id="action_report_proforma" 
+    model="sale.order" 
+    string="Proforma"
+    report_type="qweb-pdf"
+    name="manta_auto_personalizacion.report_proforma" 
+    file="manta_auto_personalizacion.report_proforma"
+
+/>
+<template id="ma_another_layout">
+<t t-name="report.another_layout">
+  <t t-call="manta_auto_personalizacion.ma_another_layout_header"/>
+  <t t-raw="0"/>
+  <t t-call="manta_auto_personalizacion.ma_another_layout_footer"/>
+</t>
+</template>
+
+
+
+
+<template id="report_proforma">
+   <t t-name="account.another_report">
+   <t t-call="manta_auto_personalizacion.ma_another_layout">
+   <t t-foreach="docs" t-as="o"> <!-- this makes the context model data accessible throughout the variable "o" -->
+    
+    <div class="page"> 
+      <div class="row mt32">
+        <table class="table table-condensed">
+          <thead style="background-color:#568eff;border: 1px solid #568eff;color:#ffffff;">
+              <tr>
+                  <th class="col-xs-9" style="font-weight:normal;font-size:30"> Proforma # <span t-field="o.name"/></th>
+                  <th class="col-xs-3" style="text-align:center">Fecha <br/> 
+                  <span t-field="o.date_order" t-field-options='{"format": "d MMMM y"}'/>
+                  <!--<span t-esc="o.date_order"/>-->
+                  </th>
+              </tr>
+         </thead>
+        </table>
+      </div>
+        
+      
+        <div class="row">
+          <div class="col-xs-6">
+            
+            <div class="panel panel-default">
+                <div class="panel-body">   
+                <strong>ASEGURADORA:  </strong>
+                <span t-if="o.is_insurance == False">PARTICULAR</span>
+                  <span t-if="o.is_insurance">
+                      <span t-field="o.partner_id"/>
+                   </span> <br/>
+                <strong>R.U.C:  </strong>
+                <span t-if="o.is_insurance == False">PARTICULAR</span>
+                  <span t-if="o.is_insurance">
+                    <span t-field="o.partner_id.ced_ruc"/>
+                  </span><br/>
+                <strong>CONTACTO:  </strong>
+                <span t-if="o.is_insurance == False">PARTICULAR</span>
+                  <span t-if="o.is_insurance">
+                    <span t-field="o.partner_id.email"/>
+                  </span>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">   
+                <strong>CLIENTE:  </strong><span t-field="o.cliente_id"/><br/>
+                <strong>C.I/R.U.C:  </strong><span t-field="o.cliente_id.ced_ruc"/><br/>
+                <strong>TELÉFONO:  </strong><span t-field="o.cliente_id.phone"/>
+                        
+                </div>
+            </div>
+          </div>
+
+          <div class="col-xs-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <strong style="text-align:center">DETALLE VEHÍCULO</strong>
+              </div>
+              <div class="panel-body">             
+                <strong>MARCA:  </strong><span t-field="o.vehiculo_id.marca_id"/><br/>
+                <strong>MODELO:  </strong><span t-field="o.vehiculo_id.modelo_id"/><br/>
+                <strong>AÑO:  </strong><span t-field="o.vehiculo_id.anio_id.name"/>
+                <strong>PLACA:  </strong><span t-field="o.vehiculo_id.placa"/><br/>
+                <strong>CHASIS:  </strong><span t-field="o.vehiculo_id.chasis"/><br/>
+                <strong>MOTOR N°:  </strong><span t-field="o.vehiculo_id.motor"/><br/>
+                <strong>COLOR:  </strong><span t-field="o.vehiculo_id.color_id"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+       <div class="row">
+        <table class="table table-bordered table-condensed">
+                
+                <thead style="background-color:#568eff;border: 1px solid #568eff;color:#ffffff;">
+                    <tr>
+                        <th class="col-xs-1">CANTIDAD</th>
+                        <th class="col-xs-5">DESCRIPCION</th>
+                        <th class="col-xs-2" style="text-align:center">V. UNITARIO</th>
+                        <th class="col-xs-2" style="text-align:center">V. TOTAL</th>
+                        
+                    </tr>
+               </thead>
+               <tbody>
+                    <tr t-foreach="o.get_line_1()" t-as="l">
+                      <span t-if="l['product_id'] == False">
+                        <td style="text-align:center">
+                          
+                        </td>
+                        <td style="text-align:center">
+                            <span style="color:#568eff;" t-esc="l['cat']"/>
+                        </td>
+                        <td style="text-align:center">
+                        </td>
+                        <td style="text-align:center">
+                        </td>
+                      </span>
+                      <span t-if="l['product_id'] != False">
+                        <td style="text-align:center">
+                           <span t-field="l.product_uom_qty" t-esc="'%.0f'%l.product_uom_qty"/>
+                        </td>
+                        <td>
+                            <span t-field="l.product_id"/>
+                        </td>
+                        <td style="text-align:center">
+                            <span t-field="l.price_unit"/>
+                        </td>
+                        <td style="text-align:center">
+                            <span t-field="l.price_subtotal"/>
+                        </td>
+                      </span>
+                      
+                        
+                        <!--<td style="text-align:center">
+                           <span t-field="l.product_uom_qty" t-esc="'%.0f'%l.product_uom_qty"/>
+                        </td>
+                        <td>
+                            <span t-field="l.category_id"/>
+                        </td>
+                        <td>
+                            <span t-field="l.product_id"/>
+                        </td>
+                        <td style="text-align:center">
+                            <span t-field="l.price_unit"/>
+                        </td>
+                        <td style="text-align:center">
+                            <span t-field="l.price_subtotal"/>
+                        </td>-->
+                    </tr>
+                </tbody>
+        </table>
+        <div class="row">
+                    <div class="col-xs-8">
+                    <table class="table table-condensed">
+                        
+                    <tr class="border-black">
+                       <td><strong>Nota: Durante las reparaciones pueden detectarse daños ocultos no consideradosen este documento, de ser asi pondremosa su consideracion un Adendum de los mismos</strong></td>
+                    </tr>
+                        
+                    </table>
+                  </div>
+                  <div class="col-xs-4 pull-right">
+                    
+                     
+                    <table class="table table-condensed">
+                        
+                        <tr class="border-black">
+                            <td class="col-xs-4"><strong>Subtotal</strong></td>
+                            <td class="col-xs-4" style="text-align:center">
+                                <span t-field="o.amount_untaxed"/>
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td class="col-xs-4"><strong>Descuento</strong></td>
+                            <td class="col-xs-4" style="text-align:center">
+                                <span t-field="o.disc_total"/>
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td class="col-xs-4"><strong>Iva</strong></td>
+                            <td class="col-xs-4" style="text-align:center">
+                                <span style="text-align:center" t-field="o.amount_tax"/>
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td class="col-xs-4"><strong>Total</strong></td>
+                            <td class="col-xs-4" style="text-align:center">
+                                <span  t-field="o.amount_total"/>
+                            </td>
+                        </tr>
+                        
+                    </table>
+                                       
+                    
+                  </div>
+
+                </div>
+        </div>
+
+        
+      </div>
+  </t>
+  </t>
+</t>
+</template>
+</data>
+</openerp>

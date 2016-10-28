@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<report 
+    id="action_report_ingreso" 
+    model="sale.order" 
+    string="Hoja Ingreso"
+    report_type="qweb-pdf"
+    name="manta_auto_personalizacion.report_ingreso" 
+    file="manta_auto_personalizacion.report_ingreso"
+
+/>
+<template id="ma_another_layout">
+<t t-name="report.another_layout">
+  <t t-call="manta_auto_personalizacion.ma_another_layout_header"/>
+  <t t-raw="0"/>
+  <t t-call="manta_auto_personalizacion.ma_another_layout_footer"/>
+</t>
+</template>
+
+<template id="report_ingreso">
+    <t t-name="account.another_report">
+   <t t-call="manta_auto_personalizacion.ma_another_layout">
+   <t t-foreach="docs" t-as="o"> <!-- this makes the context model data accessible throughout the variable "o" -->
+      <div class="page"> 
+ 
+     <div class="row mt32">
+        <table class="table table-condensed">
+          <thead style="background-color:#568eff;border: 1px solid #568eff;color:#ffffff;">
+              <tr>
+                  <th class="col-xs-9" style="font-weight:normal;font-size:30">Hoja de Ingreso</th>
+                  <th class="col-xs-3" style="text-align:center">Fecha <br/> 
+                  <!--<span t-esc="time.strftime('%A, %d %B %Y',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/>-->
+                  <span t-field="o.date_order" t-field-options='{"format": "d MMMM y"}'/>
+
+
+                  </th>
+              </tr>
+         </thead>
+        </table>
+      </div>
+
+<div class="row">
+          <div class="col-xs-6">
+            
+            <div class="panel panel-default">
+                  <div class="panel-body">   
+                <strong>F/RECEPCIÓN:  </strong>
+
+                <!--<span t-esc="time.strftime('%A, %d %B %Y',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/>-->
+                <span t-esc="o.date_order"/>
+
+                <br/>
+                <strong>F/ENTREGA:  </strong>
+
+                <!--<span t-esc="time.strftime('%A, %d %B %Y',time.strptime(o.date_order_end,'%Y-%m-%d %H:%M:%S'))"/>-->
+                <span t-esc="o.date_order_end"/>
+                <br/>
+                <strong>NOMBRES Y APELLIDOS:  </strong><span t-field="o.cliente_id"/><br/>
+                <strong>CÉDULA:  </strong><span t-field="o.cliente_id.ced_ruc"/><br/>
+                <strong>TELÉFONO:  </strong><span t-field="o.cliente_id.phone"/>
+                </div>
+            </div>
+            </div>
+
+          <div class="col-xs-6">
+            <div class="panel panel-default">
+             <div class="panel-body">             
+                <strong>SEGUROS:  </strong>
+                <span t-if="o.is_insurance == False">PARTICULAR</span>
+                 <span t-if="o.is_insurance">
+                      <span t-field="o.partner_id"/>
+                   </span><br/>
+
+                <strong>ORDEN DE TRABAJO N°:  </strong><span t-field="o.name"/><br/>
+                <strong>MARCA:  </strong><span t-field="o.vehiculo_id.marca_id.name"/>
+                <strong>MODELO:  </strong><span t-field="o.vehiculo_id.modelo_id"/>
+                <strong>AÑO:  </strong><span t-field="o.vehiculo_id.marca_id.name"/><br/>
+                <strong>COLOR:  </strong><span t-field="o.vehiculo_id.color_id.name"/>
+                <strong>PLACA:  </strong><span t-field="o.vehiculo_id.placa"/><br/>
+                <strong>CHASIS:  </strong><span t-field="o.vehiculo_id.chasis"/><br/>
+                <strong>MOTOR N°:  </strong><span t-field="o.vehiculo_id.motor"/><br/>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <div class="row">
+           
+              <table class="table table-bordered table-condensed">
+                
+               <tbody>
+                    <tr class="border-black">
+                        <td class="col-xs-6" style="background-color:#568eff;border: 1px solid #568eff;color:#ffffff;">
+                           <strong>ACCESORIOS</strong>
+                        </td>
+                        <td class="col-xs-3">
+                           <strong>KILOMETRAJE:  </strong><span t-field="o.kilometraje"/>
+                        </td>
+                        <td class="col-xs-3">
+                           <strong>GASOLINA:  </strong><span t-field="o.nivel_gasolina"/>
+                        </td>
+                    </tr>
+               </tbody>
+             </table>
+           </div>
+
+        <!-- THIRD ROW -->
+        <div class="row">
+           
+              <table class="table table-bordered table-condensed">
+               <tbody>
+                    <tr class="border-black">
+                        <td class="col-xs-2">
+                           <strong>MOQUETAS:  </strong><span t-field="o.moqueta"/>
+                        </td>
+                        <td class="col-xs-2">
+                           <strong>TAPA CUBO:  </strong><span t-field="o.tapacubo"/>
+                        </td>
+                        <td class="col-xs-2">
+                           <strong>HERRAMIENTAS:  </strong><span t-field="o.herramientas"/>
+                        </td>
+                        <td class="col-xs-2">
+                           <strong>ESPEJOS:  </strong><span t-field="o.espejo"/>
+                        </td>
+                        <td class="col-xs-2">
+                           <strong>SEGURO DE AROS:  </strong><span t-field="o.seguro_aros"/>
+                        </td>
+                        <td class="col-xs-2">
+                           <strong>PLUMAS:  </strong><span t-field="o.pluma"/>
+                        </td>
+                    </tr>
+                    <tr class="border-black">
+                        <td class="col-xs-2">
+                           <strong>LLANTAS:  </strong><span t-field="o.llanta"/>
+                        </td>
+                        <td class="col-xs-2">
+                           <strong>ENCENDEDOR:  </strong><span t-field="o.encendedor"/>
+                        </td>
+                        <td class="col-xs-2">
+                           <strong>MEMORIA RADIO:  </strong><span t-field="o.memoria_radio"/>
+                        </td>
+                        <td class="col-xs-2">
+                           <strong>CD'S:  </strong><span t-field="o.cds"/>
+                        </td>
+                        <td class="col-xs-2">
+                           <strong>EXTINTOR:  </strong><span t-field="o.extintor"/>
+                        </td>
+                        <td class="col-xs-2">
+                           <strong>GATA:  </strong><span t-field="o.gata"/>
+                        </td>
+                    </tr>
+                    <tr class="border-black">
+                        <td class="col-xs-2">
+                           <strong>EMBLEMA:  </strong><span t-field="o.emblema"/>
+                        </td>
+                        <td class="col-xs-2">
+                           <strong>TRIANGULO:  </strong><span t-field="o.triangulo"/>
+                        </td>
+                        <td class="col-xs-2">
+                           <strong>LLAVE RUEDAS:  </strong><span t-field="o.llave_ruedas"/>
+                        </td>
+                        <td class="col-xs-2">
+                           <strong>BOTIQUIN:  </strong><span t-field="o.botiquin"/>
+                        </td>
+                        <td class="col-xs-2">
+                           <strong>ANTENA:  </strong><span t-field="o.antena"/>
+                        </td>
+                        <td class="col-xs-2">
+                           <strong>TAPA GAS:  </strong><span t-field="o.tapagas"/>
+                        </td>
+                    </tr>
+                </tbody>
+        </table>
+           
+        </div>
+        <div class="row">
+        <table class="table table-bordered table-condensed">
+                
+                <thead style="background-color:#568eff;border: 1px solid #568eff;color:#ffffff;">
+                    <tr>
+                        <th class="col-xs-6" style="text-align:center">ESTADO DEL VEHICULO</th>
+                    </tr>
+               </thead>
+             <p class="text-justify">
+                <tbody style="font-weight:normal;font-size:10" class="col-xs-12">
+                    
+                        
+                           <td style="font-weight:normal;font-size:10" class="col-xs-12">
+                           <span t-foreach="o.state_line" t-as="l">
+                           <span  t-field="l.name"/><strong style="color:#568eff">  /  </strong>
+                           </span>
+                            </td>
+                           
+                        
+                    
+                </tbody>
+                </p>
+            </table>
+        </div>
+
+          <div class="row">
+        <table class="table table-bordered table-condensed">
+                
+                <thead style="background-color:#568eff;border: 1px solid #568eff;color:#ffffff;">
+                    <tr>
+                        <th class="col-xs-6" style="text-align:center">TAREAS A REALIZAR</th>
+                    </tr>
+               </thead>
+             <p class="text-justify">
+                <tbody style="font-weight:normal;font-size:10" class="col-xs-12">
+              
+                        <td style="font-weight:normal;font-size:10" class="col-xs-12">
+                           
+                           <span t-foreach="o.task_line" t-as="l">
+                           <span t-field="l.tarea_id.name"/><strong style="color:#568eff">  /  </strong>
+                           </span>
+                           
+                        </td>
+                    
+                </tbody>
+                </p>
+            </table>
+        </div>
+       
+        <!-- FOURTH ROW -->
+        <div class="row">
+        <table class="table table-bordered table-condensed">
+                
+                <thead style="background-color:#568eff;border: 1px solid #568eff;color:#ffffff;">
+                    <tr>
+                        <th class="col-xs-6" style="text-align:center">Autorización</th>
+                        <th class="col-xs-6" style="text-align:center">Vehículo</th>
+                    </tr>
+               </thead>
+               <tbody>
+                    <tr>
+                        <td style="font-weight:normal;font-size:10" class="col-xs-6">
+                           <p class="text-justify">1.- la presente autorizacion expresa que siendo el propietario o actuado como representante del mismo estoy autorizando los servicios anotados, asi como el repmplazo de las piezas que fueren pertinentes para la ejecucion de los mismos<br/>
+                           2.- Acepto las siguientes condiciones<br/>
+                           A) Cancelar al contado las facturas por las reparaciones o servicios al 
+                            momento de recibir el vehiculo<br/>
+                           B) Que el vehiculo permanezta en MANTA-AUTO hasta la cancelacion de la respectiva factura, asi como los recargos adicionales por el bodegaje<br/>
+                           C) Autorizar al personal especifico de MANTA-AUTO, para que mi vehiculo pueda ser probado en la via publica<br/>
+                           D) Autorizar a MANTA-AUTO, para que envie a otros talleres para hacer ciertas reparaciones especializadas que no se efectuen regularmente en este taller<br/>
+                           E) Exonerar a MANTA-AUTO, y a su personal de los riesgos que estan fuera de su control</p>
+                        </td>
+                        <td class="col-xs-6" style="text-align:center">
+                          <img t-att-src="'/manta_auto_personalizacion/static/src/img/autoContrato.jpg'"/>
+                        </td>
+                    </tr>
+                </tbody>
+        </table>
+        </div>
+          <div class="row">
+          <div class="col-xs-8">
+            
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                <strong style="text-align:center">Observación</strong>
+              </div>
+              <div class="panel-body">             
+                <span t-field="o.note"/>
+
+              </div>
+            </div>
+          </div>        
+
+          <div class="col-xs-4">
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+           <table class="table table-condensed">
+          <tr class="border-black">
+              <td class="text-center">
+                <strong>CLIENTE:  </strong><span t-field="o.cliente_id"/><br/>
+                <strong>C.I:  </strong><span t-field="o.cliente_id.ced_ruc"/>
+              </td>
+          
+          </tr>
+      </table>
+        </div>
+    </div>
+
+
+    </div>
+  </t>
+  </t>
+</t>
+</template>
+</data>
+</openerp>
