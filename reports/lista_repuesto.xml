@@ -96,6 +96,9 @@
                 <strong>CLIENTE:  </strong><span t-field="o.cliente_id"/><br/>
                 <strong>C.I/R.U.C:  </strong><span t-field="o.cliente_id.ced_ruc"/><br/>
                 <strong>TELÉFONO:  </strong><span t-field="o.cliente_id.phone"/>
+                <strong>TELÉFONO:  </strong><span t-field="o.cliente_id.phone"/>
+                <strong>TELÉFONO:  </strong><span t-field="o.cliente_id.phone"/>
+                <strong>TELÉFONO:  </strong><span t-field="o.cliente_id.phone"/>
                         
                 </div>
             </div>
