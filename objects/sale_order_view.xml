@@ -154,7 +154,7 @@
                 <xpath expr="//field [@name='partner_id']" position="after">
                     <field name="is_insurance" invisible = "1"/>
                     <field name="cliente_id" attrs="{'invisible':[('is_insurance','=',False)]}"/>
-                    <field name="vehiculo_id" />
+                    <field name="vehiculo_id" domain="[('partner_id','=',cliente_id)]" options="{'no_quick_create':True,'no_create_edit':True}"/>
 
                 </xpath>
                 <xpath expr="//notebook" position="before">

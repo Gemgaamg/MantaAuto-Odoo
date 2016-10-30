@@ -127,10 +127,10 @@
                             <span t-field="l.product_id"/>
                         </td>
                         <td style="text-align:center">
-                            <span t-field="l.price_unit"/>
+                            <span t-esc="'%.2f'%l.price_unit"/>
                         </td>
                         <td style="text-align:center">
-                            <span t-field="l.price_subtotal"/>
+                            <span t-esc="'%.2f'%l.price_subtotal"/>
                         </td>
                       </span>
                       
@@ -171,25 +171,25 @@
                         <tr class="border-black">
                             <td class="col-xs-4"><strong>Subtotal</strong></td>
                             <td class="col-xs-4" style="text-align:center">
-                                <span t-field="o.amount_untaxed"/>
+                                <span t-esc="'%.2f'%o.amount_untaxed"/>
                             </td>
                         </tr>
                         <tr class="border-black">
                             <td class="col-xs-4"><strong>Descuento</strong></td>
                             <td class="col-xs-4" style="text-align:center">
-                                <span t-field="o.disc_total"/>
+                                <span t-esc="'%.2f'%o.disc_total"/>
                             </td>
                         </tr>
                         <tr class="border-black">
                             <td class="col-xs-4"><strong>Iva</strong></td>
                             <td class="col-xs-4" style="text-align:center">
-                                <span style="text-align:center" t-field="o.amount_tax"/>
+                                <span t-esc="'%.2f'%o.amount_tax"/>
                             </td>
                         </tr>
                         <tr class="border-black">
                             <td class="col-xs-4"><strong>Total</strong></td>
                             <td class="col-xs-4" style="text-align:center">
-                                <span  t-field="o.amount_total"/>
+                                <span  t-esc="'%.2f'%o.amount_total"/>
                             </td>
                         </tr>
                         

@@ -204,6 +204,11 @@ class SaleOrderReplacement(models.Model):
             self.cliente_id = self.partner_id
         
         return True
+    @api.one
+    @api.onchange('cliente_id')
+    def oncha_cliente_id(self):
+        self.vehiculo_id = None        
+        return True
 
     def action_wait_insurance_setting(self, cr, uid, ids, context=None):
         #raise osv.except_osv('1','asdscasdasd')

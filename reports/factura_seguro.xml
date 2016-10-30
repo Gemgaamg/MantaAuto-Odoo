@@ -108,14 +108,14 @@
                 </tr>
             </div>
 
-            <div t-if="o.date_invoice" style="position: absolute;  left: 42mm; top: 263mm;">
-                <img t-att-src="'/manta_auto_personalizacion/static/src/img/mpago.jpg'"/>
+
+            <div t-if="o.date_invoice" style="position: absolute;  left: 35mm; top: 85mm;">
+                <strong>Trebajo realizado según proforma # <span t-esc="o.get_order().name"/></strong>
             </div>
                
 
 
-
-            <table style="position: absolute; left: 0mm; top: 85mm; ">
+            <table style="position: absolute; left: 0mm; top: 92mm; ">
                 
                 <tbody>
                     <tr t-foreach="o.get_totales()" t-as="l">
@@ -163,6 +163,10 @@
 
 
 
+            <div t-if="o.date_invoice" style="position: absolute;  left: 42mm; top: 263mm;">
+                <img t-att-src="'/manta_auto_personalizacion/static/src/img/mpago.jpg'"/>
+            </div>
+               
 
                     <table style="position: absolute; left: 212mm; top: 281mm; text-align: center;">
                         <tr>
