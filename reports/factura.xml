@@ -107,7 +107,7 @@
             <table style="position: absolute; left: 0mm; top: 92mm; ">
                 
                 <tbody>
-                    <tr t-foreach="o.get_totales()" t-as="l">
+                    <tr t-foreach="o.get_totales2()" t-as="l">
                         <t t-if="l['esCategoria']">
                         <td style="width: 15mm; height:30px ; text-align: right;">
                         </td>
@@ -121,8 +121,11 @@
                         
                         <td style="width: 20mm; text-align: left;">
                         </td>
-                       
+                            <span t-esc="l['precioU']" t-esc-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                            
                         <td style="width: 40mm;text-align: center;">
+                            <span t-esc="l['subtotal']" t-esc-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                            
                         </td>
                     </t>
                     <t t-if="l['esCategoria']==False">
@@ -139,11 +142,9 @@
                         </td>
                         
                         <td style="width: 20mm; text-align: left;">
-                            <span t-esc="l['precioU']" t-esc-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
                         </td>
                        
                         <td style="width: 40mm;text-align: center;">
-                            <span t-esc="l['subtotal']" t-esc-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
                         </td>
                     </t>
                     </tr>

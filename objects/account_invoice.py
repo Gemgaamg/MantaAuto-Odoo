@@ -39,7 +39,7 @@ class accountInvoice(models.Model):
     	return order
 
     @api.multi
-    def get_totales1(self):  
+    def get_totales(self):  
         invoice_line = self.env['account.invoice.line'].search([('invoice_id','=',self.id)],order="category_id asc,product_id asc")
         categoria = ""
         orderList = []
@@ -66,7 +66,7 @@ class accountInvoice(models.Model):
         return orderList
 
     @api.multi
-    def get_totales(self):  
+    def get_totales2(self):  
         invoice_line = self.env['account.invoice.line'].search([('invoice_id','=',self.id)],order="category_id asc,product_id asc")
         categoria = ""
         orderList = []
