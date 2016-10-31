@@ -40,7 +40,7 @@ class accountInvoice(models.Model):
 
     @api.multi
     def get_totales(self):  
-        invoice_line = self.env['account.invoice.line'].search([('invoice_id','=',self.id)],order="category_id asc")
+        invoice_line = self.env['account.invoice.line'].search([('invoice_id','=',self.id)],order="category_id asc,product_id asc")
         categoria = ""
         orderList = []
         str_line = ""
@@ -56,13 +56,56 @@ class accountInvoice(models.Model):
                 categoria = line.category_id.name
                 orderList.append(dict({"esCategoria":True,"cat":categoria}))
 
-            str_line+=line.product_id.name+"/"
+            str_line+=line.product_id.name+" / "
             price_subtotal+=line.price_subtotal
         if str_line!="":
             orderList.append(dict({"esCategoria":False,"detalle":str_line,"precioU":price_subtotal,"subtotal":price_subtotal}))
             str_line=""
             price_subtotal=0
         #raise osv.except_osv("porra",str(orderList))
+        return orderList
+
+    @api.multi
+    def get_totales2(self):  
+        invoice_line = self.env['account.invoice.line'].search([('invoice_id','=',self.id)],order="category_id asc,product_id asc")
+        categoria = ""
+        orderList = []
+        orderList2 = []
+        str_line = ""
+        price_subtotal = 0
+
+        for line in invoice_line:
+
+            if line.category_id.name != categoria:
+                try:
+                    #print str(orderList[-1]["valorTotal"])+" ---  ---  "
+                    orderList[-1]["precioU"] = price_subtotal
+                    orderList[-1]["subtotal"] = price_subtotal
+                    price_subtotal = 0
+                    #print str(orderList[-1])+" ---  ---  "
+                    for i in orderList2:
+                        orderList.append(i)
+                    orderList2 = []
+                except:
+                    pass
+                categoria = line.category_id.name
+                orderList.append(dict({"esCategoria":True,"cat":categoria,"precioU":0.0,"subtotal":0.0}))
+
+            orderList2.append(dict({"esCategoria":False,"detalle":line.product_id.name,"precioU":line.price_subtotal,"subtotal":line.price_subtotal}))
+            price_subtotal+=line.price_subtotal
+
+        try:
+            #print str(orderList[-1]["valorTotal"])+" ---  ---  "
+            orderList[-1]["precioU"] = price_subtotal
+            orderList[-1]["subtotal"] = price_subtotal
+            price_subtotal = 0
+            #print str(orderList[-1])+" ---  ---  "
+            for i in orderList2:
+                orderList.append(i)
+            orderList2 = []
+        except:
+            pass
+        #print orderList
         return orderList
 class DetalleInvoice(models.Model):
     _inherit = 'account.invoice.line'

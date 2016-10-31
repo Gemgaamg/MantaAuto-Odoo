@@ -111,6 +111,12 @@
             <div t-if="o.date_invoice" style="position: absolute;  left: 35mm; top: 85mm;">
                 <strong>Trebajo realizado según proforma # <span t-esc="o.get_order().name"/></strong>
             </div>
+            <div t-if="o.date_invoice" style="position: absolute;  left: 224mm; top: 85mm;">
+                <span t-esc="'%.2f'%o.amount_untaxed"/>
+            </div>
+            <div t-if="o.date_invoice" style="position: absolute;  left: 192mm; top: 85mm;">
+                <span t-esc="'%.2f'%o.amount_untaxed"/>
+            </div>
                
 
 
@@ -149,11 +155,11 @@
                         </td>
                         
                         <td style="width: 20mm; text-align: left;">
-                            <span t-esc="l['precioU']" t-esc-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                            
                         </td>
                        
                         <td style="width: 40mm;text-align: center;">
-                            <span t-esc="l['subtotal']" t-esc-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                            
                         </td>
                     </t>
                     </tr>

@@ -89,6 +89,7 @@
                                 
                                 <thead style="background-color:#568eff;border: 1px solid #568eff;color:#ffffff;">
                                     <tr>
+                                        <th style="text-align:center">Orden</th>
                                         <th style="text-align:center" class="col-xs-2">Cliente</th>
                                         <th style="text-align:center" class="col-xs-2">Seguros</th>
                                         <th style="text-align:center" class="col-xs-1">Fechas</th>
@@ -104,6 +105,9 @@
                                </thead>
                                <tbody style="border: 1px solid #568eff;">
                                     <tr t-foreach="o.get_orders()" t-as="l">
+                                        <td style="text-align:center">
+                                           <span t-field="l.name"/>
+                                        </td>
                                         <td >
                                             <span t-field="l.cliente_id"/>
                                         </td>
@@ -127,13 +131,31 @@
                                            <span t-field="l.vehiculo_id.color_id.name"/>
                                         </td>
                                         <td style="text-align:center">
+                                          <t t-if="l.state == 'cancel'">
+                                            <span>0.00</span>
+                                          </t>
+                                          <t t-if="l.state != 'cancel'">
                                            <span t-esc="'%.2f'%l.amount_total"/>
+                                          </t>
                                         </td>
                                         <td  style="text-align:center">
+                                           
+                                           <t t-if="l.state == 'cancel'">
+                                            <span>0.00</span>
+                                          </t>
+                                          <t t-if="l.state != 'cancel'">
                                            <span t-esc="'%.2f'%l.abono"/>
+                                          </t>
                                         </td>
                                         <td style="text-align:center">
-                                           <span t-esc="'%.2f'%l.saldo"/>
+                                           <t t-if="l.state == 'cancel'">
+                                            <span>0.00</span>
+                                           </t>
+                                          <t t-if="l.state != 'cancel'">
+                                           <span t-esc="'%.2f'%l.abono"/>
+
+                                        </t>
+
                                         </td>
                                     </tr>
                                    <tr style="border: 1px solid #568eff;">

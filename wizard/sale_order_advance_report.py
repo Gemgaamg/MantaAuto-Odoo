@@ -96,7 +96,7 @@ class hrz_kardex_report(models.Model):
             #('create_date', '<', (datetime.strptime(self.date_to, '%Y-%m-%d')+ timedelta(days=1)).strftime('%Y-%m-%d'))]
             #raise osv.except_osv('1',filtro)
 
-            orden = self.env['sale.order'].search(filtro)
+            orden = self.env['sale.order'].search(filtro,order="partner_id asc, cliente_id asc")
             self.ordenes = orden
         return self.ordenes
 
