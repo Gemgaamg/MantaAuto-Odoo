@@ -39,8 +39,8 @@ class accountInvoice(models.Model):
     	return order
 
     @api.multi
-    def get_totales(self):  
-        invoice_line = self.env['account.invoice.line'].search([('invoice_id','=',self.id)],order="category_id asc")
+    def get_totales3(self):  
+        invoice_line = self.env['account.invoice.line'].search([('invoice_id','=',self.id)],order="category_id asc,product_id asc")
         categoria = ""
         orderList = []
         str_line = ""
@@ -62,6 +62,37 @@ class accountInvoice(models.Model):
             orderList.append(dict({"esCategoria":False,"detalle":str_line,"precioU":price_subtotal,"subtotal":price_subtotal}))
             str_line=""
             price_subtotal=0
+        #raise osv.except_osv("porra",str(orderList))
+        return orderList
+
+    @api.multi
+    def get_totales(self):  
+        invoice_line = self.env['account.invoice.line'].search([('invoice_id','=',self.id)],order="category_id asc,product_id asc")
+        categoria = ""
+        orderList = []
+        str_line = ""
+        price_subtotal = 0
+        sumarizadoCategoria = 0.0
+        for line in invoice_line:
+            diccionario ={}
+            if line.category_id.name != categoria:
+                #if str_line!="":
+                    #print (dict({"esCategoria":False,"detalle":str_line,"precioU":price_subtotal,"subtotal":price_subtotal}))
+                    #orderList.append(dict({"esCategoria":False,"detalle":str_line,"precioU":price_subtotal,"subtotal":price_subtotal}))
+                #    str_line=""
+                diccionario['valorTotal'] = price_subtotal
+                price_subtotal = 0.0
+                categoria = line.category_id.name
+                diccionario = dict({"esCategoria":True,"cat":categoria,"valorTotal":0.0})
+                orderList.append(diccionario)
+
+            orderList.append(dict({"esCategoria":False,"detalle":line.product_id.name,"precioU":line.price_subtotal,"subtotal":line.price_subtotal}))
+            #str_line+=line.product_id.name+"/"
+            price_subtotal+=line.price_subtotal
+        #if str_line!="":
+        #    orderList.append(dict({"esCategoria":False,"detalle":str_line,"precioU":price_subtotal,"subtotal":price_subtotal}))
+        #    str_line=""
+        #    price_subtotal=0
         #raise osv.except_osv("porra",str(orderList))
         return orderList
 class DetalleInvoice(models.Model):
