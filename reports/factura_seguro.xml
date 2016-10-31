@@ -35,9 +35,8 @@
             
              <div t-if="o.date_invoice" style="position: absolute;  left: 72mm; top: 22mm;">
                     <p t-field="o.date_invoice" t-field-options='{"format": "d MMMM y"}'/>
-                    
-
             </div>
+            
             <div>
 
                <tr>
