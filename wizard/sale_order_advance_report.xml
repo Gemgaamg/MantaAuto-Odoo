@@ -127,13 +127,13 @@
                                            <span t-field="l.vehiculo_id.color_id.name"/>
                                         </td>
                                         <td style="text-align:center">
-                                           <span t-field="l.amount_total"/>
+                                           <span t-esc="'%.2f'%l.amount_total"/>
                                         </td>
                                         <td  style="text-align:center">
-                                           <span t-field="l.abono"/>
+                                           <span t-esc="'%.2f'%l.abono"/>
                                         </td>
                                         <td style="text-align:center">
-                                           <span t-field="l.saldo"/>
+                                           <span t-esc="'%.2f'%l.saldo"/>
                                         </td>
                                     </tr>
                                    <tr style="border: 1px solid #568eff;">
@@ -156,13 +156,13 @@
                                         </td>
                                         <t t-set="i" t-value="o.get_total()"/>
                                         <td style="text-align:center">
-                                           <span t-esc="'$'+str(i['sumTotal'])"/>
+                                           <span t-esc="'$'+str('%.2f'%i['sumTotal'])"/>
                                         </td>
                                         <td style="text-align:center">
-                                           <span t-esc="'$'+str(i['sumAbono'])"/>
+                                           <span t-esc="'$'+str('%.2f'%i['sumAbono'])"/>
                                         </td>
                                         <td style="text-align:center">
-                                           <span t-esc="'$'+str(i['sumSaldo'])"/>
+                                           <span t-esc="'$'+str('%.2f'%i['sumSaldo'])"/>
                                         </td>
                                     </tr>
                                 </tbody>
