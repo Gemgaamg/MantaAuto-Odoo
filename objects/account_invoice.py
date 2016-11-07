@@ -62,7 +62,6 @@ class accountInvoice(models.Model):
             orderList.append(dict({"esCategoria":False,"detalle":str_line,"precioU":price_subtotal,"subtotal":price_subtotal}))
             str_line=""
             price_subtotal=0
-        #raise osv.except_osv("porra",str(orderList))
         return orderList
 
     @api.multi
