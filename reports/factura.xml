@@ -32,19 +32,19 @@
                <tr>
                     
                     <td class="text-right">
-                        <span t-if="o.get_order().is_insurance == False" style="position: absolute; left: 25mm;top: 29mm;">PARTICULAR</span>
+                        <span t-if="o.get_order().is_insurance == False" style="position: absolute; left: 25mm;top: 29mm;"></span>
                         <span t-if="o.get_order().is_insurance">
                         <span t-esc="o.get_order().partner_id.name" style="position: absolute; left: 25mm;top: 29mm;"/>
                         </span>
                     </td>
                     <td class="text-right">
-                        <span t-if="o.get_order().is_insurance == False" style="position: absolute; left: 25mm; top: 35mm;">PARTICULAR</span>
+                        <span t-if="o.get_order().is_insurance == False" style="position: absolute; left: 25mm; top: 35mm;"></span>
                         <span t-if="o.get_order().is_insurance">
                         <span t-esc="o.get_order().partner_id.street" style="position: absolute; left: 25mm; top: 35mm;"/>
                         </span>
                     </td>
                     <td class="text-right">
-                        <span t-if="o.get_order().is_insurance == False" style="position: absolute; left: 25mm; top: 42mm;">PARTICULAR</span>
+                        <span t-if="o.get_order().is_insurance == False" style="position: absolute; left: 25mm; top: 42mm;"></span>
                         <span t-if="o.get_order().is_insurance">
                         <span t-esc="o.get_order().partner_id.ced_ruc" style="position: absolute; left: 25mm; top: 42mm;"/>
                         </span>
@@ -98,7 +98,7 @@
             </div>
 
 
-            <div t-if="o.date_invoice" style="position: absolute;  left: 35mm; top: 85mm;">
+            <div style="position: absolute;  left: 35mm; top: 85mm;">
                 <strong>Trebajo realizado según proforma # <span t-esc="o.get_order().name"/></strong>
             </div>
                
@@ -106,7 +106,7 @@
 
             <table style="position: absolute; left: 0mm; top: 92mm; ">
                 
-                <tbody>
+                    <tbody>
                     <tr t-foreach="o.get_totales2()" t-as="l">
                         <t t-if="l['esCategoria']">
                         <td style="width: 15mm; height:30px ; text-align: right;">
@@ -120,8 +120,9 @@
                         </td>
                         
                         <td style="width: 20mm; text-align: left;">
-                        </td>
                             <span t-esc="l['precioU']" t-esc-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                        </td>
+                            
                             
                         <td style="width: 40mm;text-align: center;">
                             <span t-esc="l['subtotal']" t-esc-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
@@ -153,7 +154,7 @@
 
 
 
-            <div t-if="o.date_invoice" style="position: absolute;  left: 42mm; top: 263mm;">
+            <div style="position: absolute;  left: 42mm; top: 263mm;">
                 <img t-att-src="'/manta_auto_personalizacion/static/src/img/mpago.jpg'"/>
             </div>
                

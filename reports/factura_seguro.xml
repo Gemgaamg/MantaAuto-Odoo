@@ -108,13 +108,13 @@
             </div>
 
 
-            <div t-if="o.date_invoice" style="position: absolute;  left: 35mm; top: 85mm;">
+            <div style="position: absolute;  left: 35mm; top: 85mm;">
                 <strong>Trebajo realizado según proforma # <span t-esc="o.get_order().name"/></strong>
             </div>
-            <div t-if="o.date_invoice" style="position: absolute;  left: 224mm; top: 85mm;">
+            <div  style="position: absolute;  left: 224mm; top: 85mm;">
                 <span t-esc="'%.2f'%o.amount_untaxed"/>
             </div>
-            <div t-if="o.date_invoice" style="position: absolute;  left: 192mm; top: 85mm;">
+            <div style="position: absolute;  left: 192mm; top: 85mm;">
                 <span t-esc="'%.2f'%o.amount_untaxed"/>
             </div>
                
@@ -168,7 +168,7 @@
 
 
 
-            <div t-if="o.date_invoice" style="position: absolute;  left: 42mm; top: 263mm;">
+            <div  style="position: absolute;  left: 42mm; top: 263mm;">
                 <img t-att-src="'/manta_auto_personalizacion/static/src/img/mpago.jpg'"/>
             </div>
                
